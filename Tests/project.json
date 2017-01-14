@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0-*",
+  "testRunner": "mstest",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "dotnet-test-mstest": "1.1.2-preview",
+    "MessageBird": "1.0.0-*",
+    "MSTest.TestFramework": "1.0.8-rc2"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.1"
+        }
+      },
+      "imports": "dnxcore50"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace MessageBird.Utilities
 {
@@ -11,7 +12,7 @@ namespace MessageBird.Utilities
                 throw new ArgumentNullException("t");
             }
 
-            return (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return (t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
     }
 }

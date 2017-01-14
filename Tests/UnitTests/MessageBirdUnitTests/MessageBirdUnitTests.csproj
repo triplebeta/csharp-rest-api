@@ -57,12 +57,6 @@
     <Compile Include="Resources\RFC3339DateTimeConverterTest.cs" />
     <Compile Include="Resources\VoiceMessageTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\MessageBird\MessageBird.csproj">
-      <Project>{C49CD3F8-BCDB-4BA9-B817-6A6C65452510}</Project>
-      <Name>MessageBird</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -64,7 +64,10 @@ namespace MessageBird.Net
             HttpWebRequest request = PrepareRequest(resource.Uri, "POST");
             return PerformRoundTrip(request, resource, HttpStatusCode.Created, () =>
             {
-                using (var requestWriter = new StreamWriter(request.GetRequestStream()))
+                var reqTask = request.GetRequestStreamAsync();
+                reqTask.Wait();
+                var requestStream = reqTask.Result;
+                using (var requestWriter = new StreamWriter(requestStream))
                 {
                     string serializedResource = resource.Serialize();
                     requestWriter.Write(serializedResource);
@@ -80,7 +83,9 @@ namespace MessageBird.Net
             {
                 requestAction();
 
-                using (var response = request.GetResponse() as HttpWebResponse)
+                var resTask = request.GetResponseAsync();
+                resTask.Wait();
+                using (var response = resTask.Result as HttpWebResponse)
                 {
                     var statusCode = (HttpStatusCode)response.StatusCode;
                     if (statusCode == expectedHttpStatusCode)
@@ -132,14 +137,14 @@ namespace MessageBird.Net
             // TODO: ##jwp; need to find out why .NET 4.0 under VS2013 refuses to recognize `WebRequest.CreateHttp`.
             // HttpWebRequest request = WebRequest.CreateHttp(uri);
             var request = WebRequest.Create(uri) as HttpWebRequest;
-            request.UserAgent = UserAgent;
             const string ApplicationJsonContentType = "application/json"; // http://tools.ietf.org/html/rfc4627
             request.Accept = ApplicationJsonContentType;
             request.ContentType = ApplicationJsonContentType;
             request.Method = method;
 
             WebHeaderCollection headers = request.Headers;
-            headers.Add("Authorization", String.Format("AccessKey {0}", AccessKey));
+            headers["Authorization"] = String.Format("AccessKey {0}", AccessKey);
+            headers["User-Agent"] = UserAgent;
 
             if (null != ProxyConfigurationInjector)
             {

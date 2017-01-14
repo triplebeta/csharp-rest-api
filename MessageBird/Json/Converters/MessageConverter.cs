@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 using MessageBird.Objects;
+using System.Reflection;
 
 namespace MessageBird.Json.Converters
 {
